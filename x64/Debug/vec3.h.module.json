@@ -1,0 +1,22 @@
+{
+    "version": 1,
+    "revision": 0,
+    "rules": [
+        {
+            "primary-output": "x64\\Debug\\vec3.h.obj",
+            "outputs": [
+                "C:\\Users\\Dylan\\source\\repos\\RayTracer\\RayTracer\\x64\\Debug\\vc145.pdb",
+                "x64\\Debug\\",
+                "C:\\Users\\Dylan\\source\\repos\\RayTracer\\RayTracer\\x64\\Debug\\vec3.h.ifc"
+            ],
+            "provides": [
+                {
+                    "logical-name": "vec3.h",
+                    "source-path": "c:\\users\\dylan\\source\\repos\\raytracer\\raytracer\\vec3.h",
+                    "lookup-method": "absolute"
+                }
+            ],
+            "requires": []
+        }
+    ]
+}

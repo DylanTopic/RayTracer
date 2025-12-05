@@ -1,0 +1,22 @@
+{
+    "version": 1,
+    "revision": 0,
+    "rules": [
+        {
+            "primary-output": "x64\\Debug\\vec3.obj",
+            "outputs": [
+                "x64\\Debug\\vec3.h_EF1FA0915584359B.ifc.dt.module.json",
+                "x64\\Debug\\vec3.h_EF1FA0915584359B.ifc.dt.d.json",
+                "x64\\Debug\\vec3.h.ifc"
+            ],
+            "provides": [
+                {
+                    "logical-name": "C:\\Users\\Dylan\\source\\repos\\RayTracer\\RayTracer\\vec3.h",
+                    "source-path": "c:\\users\\dylan\\source\\repos\\raytracer\\raytracer\\vec3.h",
+                    "lookup-method": "absolute"
+                }
+            ],
+            "requires": []
+        }
+    ]
+}
