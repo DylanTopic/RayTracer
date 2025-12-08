@@ -3,6 +3,7 @@
 
 #include "rtweekend.h"
 
+
 class hit_record {
 public:
     point3 p;
