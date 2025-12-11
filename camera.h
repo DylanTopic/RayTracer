@@ -20,7 +20,7 @@ public:
 
     double defocus_angle = 0; 
     double focus_dist = 10;
-
+    
     void render(const hittable& world) {
         initialize();
 
