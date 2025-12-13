@@ -26,6 +26,15 @@ public:
         return x;
     }
 
+    interval(const interval& a, const interval& b) {
+        min = a.min <= b.min ? a.min : b.min;
+        max = a.max >= b.max ? a.max : b.max;
+    }
+    interval expand(double delta) const {
+        auto padding = delta / 2;
+        return interval(min - padding, max + padding);
+    }
+
     static const interval empty, universe;
 };
 
