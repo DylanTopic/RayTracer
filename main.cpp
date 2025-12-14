@@ -7,24 +7,13 @@
 #include "sphere.h"
 #include "texture.h"
 
-int main() {
+void checkered_spheres() {
     hittable_list world;
+
     auto checker = make_shared<checker_texture>(0.32, color(.2, .3, .1), color(.9, .9, .9));
-    world.add(make_shared<sphere>(point3(0.0, -100.5, -1.0), 100.0, make_shared<lambertian>(checker)));
 
-    auto material_center = make_shared<lambertian>(color(0.4, 0.2, 0.1));
-    auto center1 = point3(0.0, 0.0, -1.0);
-    auto center2 = point3(0.0, 0.5, -1.0);
-    world.add(make_shared<sphere>(center1, center2, 0.5, material_center));
-
-    auto material_left = make_shared<dielectric>(1.5);
-    world.add(make_shared<sphere>(point3(-1.0, 0.0, -1.0), 0.5, material_left));
-    world.add(make_shared<sphere>(point3(-1.0, 0.0, -1.0), 0.4, make_shared<dielectric>(1.00 / 1.50)));
-
-    auto material_right = make_shared<metal>(color(0.7, 0.6, 0.5), 0.0);
-    world.add(make_shared<sphere>(point3(1.0, 0.0, -1.0), 0.5, material_right));
-
-    world = hittable_list(make_shared<bvh_node>(world));
+    world.add(make_shared<sphere>(point3(0, -10, 0), 10, make_shared<lambertian>(checker)));
+    world.add(make_shared<sphere>(point3(0, 10, 0), 10, make_shared<lambertian>(checker)));
 
     camera cam;
 
@@ -34,12 +23,40 @@ int main() {
     cam.max_depth = 50;
 
     cam.vfov = 20;
-    cam.lookfrom = point3(0, 2, 6);
-    cam.lookat = point3(0, 0, -1);
+    cam.lookfrom = point3(13, 2, 3);
+    cam.lookat = point3(0, 0, 0);
     cam.vup = vec3(0, 1, 0);
 
-    cam.defocus_angle = 0.6;
-    cam.focus_dist = 7.28;
+    cam.defocus_angle = 0;
 
     cam.render(world);
+}
+
+void earth() {
+    auto earth_texture = make_shared<image_texture>("earthmap.jpg");
+    auto earth_surface = make_shared<lambertian>(earth_texture);
+    auto globe = make_shared<sphere>(point3(0, 0, 0), 2, earth_surface);
+
+    camera cam;
+
+    cam.aspect_ratio = 16.0 / 9.0;
+    cam.image_width = 400;
+    cam.samples_per_pixel = 100;
+    cam.max_depth = 50;
+
+    cam.vfov = 20;
+    cam.lookfrom = point3(0, 0, 12);
+    cam.lookat = point3(0, 0, 0);
+    cam.vup = vec3(0, 1, 0);
+
+    cam.defocus_angle = 0;
+
+    cam.render(hittable_list(globe));
+}
+
+int main() {
+    switch (2) {
+    case 1:  checkered_spheres(); break;
+    case 2:  earth();             break;
+    }
 }

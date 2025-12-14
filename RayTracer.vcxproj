@@ -140,8 +140,10 @@
     <ClInclude Include="interval.h" />
     <ClInclude Include="material.h" />
     <ClInclude Include="ray.h" />
+    <ClInclude Include="rtw_stb_image.h" />
     <ClInclude Include="rtweekend.h" />
     <ClInclude Include="sphere.h" />
+    <ClInclude Include="stb_image.h" />
     <ClInclude Include="texture.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
