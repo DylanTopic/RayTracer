@@ -53,7 +53,9 @@ While inspired by the *Ray Tracing in One Weekend* book series, this implementat
 5. Output is written to `image.ppm`.
 
 ### References
+
 [_Ray Tracing in One Weekend_](https://raytracing.github.io/books/RayTracingInOneWeekend.html)
+
 [_Ray Tracing: The Next Week_](https://raytracing.github.io/books/RayTracingTheNextWeek.html)
 
 ### Command Line (g++)
