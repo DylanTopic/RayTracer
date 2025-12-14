@@ -5,15 +5,28 @@
 #include "hittable_list.h"
 #include "material.h"
 #include "sphere.h"
-#include "texture.h"
+#include "texture.h" 
 
-void checkered_spheres() {
+void perlin_ground() {
     hittable_list world;
 
-    auto checker = make_shared<checker_texture>(0.32, color(.2, .3, .1), color(.9, .9, .9));
+    // --- CHANGED: Ground now uses Noise Texture ---
+    // Scale = 4.0 creates a standard marble pattern size on the ground
+    auto pertext_ground = make_shared<noise_texture>(4.0);
+    world.add(make_shared<sphere>(point3(0, -1000, 0), 1000, make_shared<lambertian>(pertext_ground)));
+    // ----------------------------------------------
 
-    world.add(make_shared<sphere>(point3(0, -10, 0), 10, make_shared<lambertian>(checker)));
-    world.add(make_shared<sphere>(point3(0, 10, 0), 10, make_shared<lambertian>(checker)));
+    // 2. Left Sphere: Low Frequency Noise
+    auto tex_low = make_shared<noise_texture>(0.5);
+    world.add(make_shared<sphere>(point3(-2.2, 1, 0), 1.0, make_shared<lambertian>(tex_low)));
+
+    // 3. Center Sphere: Medium Frequency Noise
+    auto tex_med = make_shared<noise_texture>(4.0);
+    world.add(make_shared<sphere>(point3(0, 1, 0), 1.0, make_shared<lambertian>(tex_med)));
+
+    // 4. Right Sphere: High Frequency Noise
+    auto tex_high = make_shared<noise_texture>(10.0);
+    world.add(make_shared<sphere>(point3(2.2, 1, 0), 1.0, make_shared<lambertian>(tex_high)));
 
     camera cam;
 
@@ -23,8 +36,10 @@ void checkered_spheres() {
     cam.max_depth = 50;
 
     cam.vfov = 20;
-    cam.lookfrom = point3(13, 2, 3);
-    cam.lookat = point3(0, 0, 0);
+
+    // Look from slightly higher up to see the ground better
+    cam.lookfrom = point3(0, 4, 10);
+    cam.lookat = point3(0, 1, 0);
     cam.vup = vec3(0, 1, 0);
 
     cam.defocus_angle = 0;
@@ -32,31 +47,6 @@ void checkered_spheres() {
     cam.render(world);
 }
 
-void earth() {
-    auto earth_texture = make_shared<image_texture>("earthmap.jpg");
-    auto earth_surface = make_shared<lambertian>(earth_texture);
-    auto globe = make_shared<sphere>(point3(0, 0, 0), 2, earth_surface);
-
-    camera cam;
-
-    cam.aspect_ratio = 16.0 / 9.0;
-    cam.image_width = 400;
-    cam.samples_per_pixel = 100;
-    cam.max_depth = 50;
-
-    cam.vfov = 20;
-    cam.lookfrom = point3(0, 0, 12);
-    cam.lookat = point3(0, 0, 0);
-    cam.vup = vec3(0, 1, 0);
-
-    cam.defocus_angle = 0;
-
-    cam.render(hittable_list(globe));
-}
-
 int main() {
-    switch (2) {
-    case 1:  checkered_spheres(); break;
-    case 2:  earth();             break;
-    }
+    perlin_ground();
 }

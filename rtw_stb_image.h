@@ -1,19 +1,16 @@
 #ifndef RTW_STB_IMAGE_H
 #define RTW_STB_IMAGE_H
 
-// --- FIX: Disable strict warnings for MSVC ---
 #ifdef _MSC_VER
 #pragma warning (push, 0)
-#include <Windows.h>      // Needed for MultiByteToWideChar in stb_image
-#pragma warning (disable : 4996) // Disable "unsafe function" warnings (getenv, sprintf)
-#pragma warning (disable : 4244) // Disable float->int conversion warnings
+#include <Windows.h>      
+#pragma warning (disable : 4996) 
+#pragma warning (disable : 4244) 
 #endif
 
 #define STB_IMAGE_IMPLEMENTATION
 #define STBI_FAILURE_USERMSG
 
-// Ensure this path matches where you put the file. 
-// If it is in the same folder as your .cpp files, use "stb_image.h"
 #include "stb_image.h"
 
 #include <cstdlib>
@@ -63,7 +60,7 @@ public:
         // contiguous, going left to right for the width of the image, followed by the next row
         // below, for the full height of the image.
 
-        auto n = bytes_per_pixel; // Dummy out parameter: original components per pixel
+        auto n = bytes_per_pixel; 
         fdata = stbi_loadf(filename.c_str(), &image_width, &image_height, &n, bytes_per_pixel);
         if (fdata == nullptr) return false;
 
@@ -76,8 +73,6 @@ public:
     int height() const { return (fdata == nullptr) ? 0 : image_height; }
 
     const unsigned char* pixel_data(int x, int y) const {
-        // Return the address of the three RGB bytes of the pixel at x,y. If there is no image
-        // data, returns magenta.
         static unsigned char magenta[] = { 255, 0, 255 };
         if (bdata == nullptr) return magenta;
 
@@ -89,14 +84,13 @@ public:
 
 private:
     const int      bytes_per_pixel = 3;
-    float* fdata = nullptr;         // Linear floating point pixel data
-    unsigned char* bdata = nullptr;         // Linear 8-bit pixel data
-    int            image_width = 0;         // Loaded image width
-    int            image_height = 0;        // Loaded image height
+    float* fdata = nullptr;         
+    unsigned char* bdata = nullptr;        
+    int            image_width = 0;        
+    int            image_height = 0;       
     int            bytes_per_scanline = 0;
 
     static int clamp(int x, int low, int high) {
-        // Return the value clamped to the range [low, high).
         if (x < low) return low;
         if (x < high) return x;
         return high - 1;
@@ -111,13 +105,9 @@ private:
     }
 
     void convert_to_bytes() {
-        // Convert the linear floating point pixel data to bytes, storing the resulting byte
-        // data in the `bdata` member.
         int total_bytes = image_width * image_height * bytes_per_pixel;
         bdata = new unsigned char[total_bytes];
 
-        // Iterate through all pixel components, converting from [0.0, 1.0] float values to
-        // unsigned [0, 255] byte values.
         auto* bptr = bdata;
         auto* fptr = fdata;
         for (auto i = 0; i < total_bytes; i++, fptr++, bptr++)
